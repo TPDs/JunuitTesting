@@ -16,27 +16,29 @@ class MainTest {
     HashMap<String, String> kodeList = new HashMap<>();
 
     @Test
-    void main() throws IOException {
+    void main() {
 
         //int input = (int) (Math.random() * 4) * 2;
-        int input=0;
-        while (input==0) {input = (int) (Math.random() * 4) * 2;}
+        int input = 0;
+        while (input == 0) {
+            input = (int) (Math.random() * 4) * 2;
+        }
 
         System.out.println(input);
         for (int i = 0; i < letters.length; i++) {
 
-            if (i + input > letters.length-1) {
+            if (i + input > letters.length - 1) {
 
 
-                kodeList.put(letters[i],letters[(i + input) - letters.length]);
+                kodeList.put(letters[i], letters[(i + input) - letters.length]);
 
-            } else kodeList.put(letters[i],letters[i + input]);
+            } else kodeList.put(letters[i], letters[i + input]);
 
         }
 
     }
 
-@Test
+    @Test
     void read() throws IOException {
         main();
         File copy = new File("src/com/company/copy.txt");
@@ -44,18 +46,18 @@ class MainTest {
         copy.createNewFile();
         String test = null;
         try {
-            File file = new File("src/com/company/whale2.txt");
+            File file = new File("src/com/company/test.txt");
             Scanner sc = new Scanner(file);
 
             while (sc.hasNextLine()) {
 
                 String word = sc.next();
-                String copyword ="";
+                String copyword = "";
 
                 for (int i = 0; i < word.length(); i++) {
                     char c = word.charAt(i);
                     String b = String.valueOf(c);
-                    b= b.toLowerCase();
+                    b = b.toLowerCase();
 
                     copyword = copyword + kodeList.getOrDefault(b, b);
                 }
@@ -64,7 +66,9 @@ class MainTest {
                 BufferedWriter br = new BufferedWriter(fr);
                 br.write(copyword);
                 br.write(" ");
-                if (test == null) { test = copyword;}
+                if (test == null) {
+                    test = copyword;
+                }
                 br.close();
                 fr.close();
 
@@ -75,11 +79,69 @@ class MainTest {
             e.printStackTrace();
         }
 
-    System.out.println(test);
+        System.out.println(test);
 
         char code = test.charAt(0);
-    System.out.println(code);
+        System.out.println(code);
 
+    }
+
+    @Test
+    void unread() throws IOException {
+
+        try {
+            File file = new File("src/com/company/test.txt");
+            Scanner sc = new Scanner(file);
+
+            while (sc.hasNextLine()) {
+
+                String word = sc.next();
+                String copyword = "";
+
+                if (word.length() == 1) {
+
+                    int pValue = 0;
+                    int iValue = 0;
+                    int aValue = 0;
+                    for (int i = 0; i < letters.length; i++) {
+                        if (word.equals(letters[i])) {
+                            pValue = i;
+                            System.out.println(pValue);
+                            for (int j = 0; j < letters.length; j++) {
+
+                                if (letters[pValue + j - letters.length].equals(letters[0])) {
+                                    aValue = pValue + j;
+                                } else if (letters[pValue + j- letters.length].equals(letters[9]) || letters[pValue + j].equals(letters[9])) {
+                                    if (pValue+j > letters.length) {
+                                        iValue = pValue+j - letters.length;
+                                    }
+                                    else iValue = j;
+
+                                }
+
+                            }
+                        }
+
+                    }
+
+
+                }
+
+                for (int i = 0; i < word.length(); i++) {
+                    char c = word.charAt(i);
+                    String b = String.valueOf(c);
+                    b = b.toLowerCase();
+
+                    copyword = copyword + kodeList.getOrDefault(b, b);
+                }
+
+
+            }
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 
